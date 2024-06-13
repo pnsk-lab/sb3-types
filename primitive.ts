@@ -44,7 +44,7 @@ export interface BroadcastPrimitive {
   /** Primitive type identifier. */
   0: InputType.Broadcast
 
-  /** The broadcast message. */
+  /** The name of broadcast message. */
   1: string
 
   /** The broadcast message ID. */

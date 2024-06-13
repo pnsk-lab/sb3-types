@@ -434,11 +434,13 @@ export type ScalarVariable = [
  */
 export type List = [displayName: string, defaultValue: ScalarVal[]]
 
+type InputPrimitiveOrReference = InputPrimitive | /* blockId */ string
+
 /**
  * The input value held by the block
  */
 export type Input =
-  | [Shadow.UnObscured | Shadow.No, InputPrimitive]
-  | [Shadow.Obscured, InputPrimitive, InputPrimitive]
+  | [Shadow.UnObscured | Shadow.No, InputPrimitiveOrReference]
+  | [Shadow.Obscured, InputPrimitiveOrReference, InputPrimitiveOrReference]
 
 export * from './primitive'
