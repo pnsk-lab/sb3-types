@@ -6,6 +6,7 @@
  */
 
 import type { InputPrimitive, TopLevelPrimitive } from './primitive'
+import type { Shadow } from './enums'
 
 /**
  * Scratch 3.0 Project Schema
@@ -433,12 +434,6 @@ export type ScalarVariable = [
  */
 export type List = [displayName: string, defaultValue: ScalarVal[]]
 
-export namespace Shadow {
-  export type UnObscured = 0
-  export type No = 1
-  export type Obscured = 2
-  export type All = UnObscured | No | Obscured
-}
 /**
  * The input value held by the block
  */

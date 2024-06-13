@@ -1,32 +1,9 @@
-/**
- * enum of InputType
- */
-export namespace InputType {
-  export type Number = 4
-  export type PossiveNumber = 5
-  export type PossiveInteger = 6
-  export type Integer = 7
-  export type Angle = 8
-  export type Color = 9
-  export type String = 10
-  export type Broadcast = 11
-  export type Variable = 12
-  export type List = 13
-  export type All =
-    | Number
-    | PossiveNumber
-    | PossiveInteger
-    | Integer
-    | Angle
-    | Color
-    | String
-    | Broadcast
-    | Variable
-    | List
-}
+import type { InputType } from './enums'
+
 /**
  * Represents a number primitive in Scratch 3.0.
  */
+
 export interface NumPrimitive {
   /** Primitive type identifier. */
   0:
