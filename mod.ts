@@ -5,12 +5,14 @@
  * import type { ScratchProject } from '@pnsk-lab/sb3-types'
  */
 
+import type { InputPrimitive, TopLevelPrimitive } from './primitive'
+
 /**
  * Scratch 3.0 Project Schema
  */
 export interface ScratchProject {
   meta: Meta
-  targets: Array<Stage | Sprite>
+  targets: (Stage | Sprite)[]
 }
 
 /**
@@ -46,13 +48,11 @@ export interface Meta {
 export interface Stage extends Target {
   /**
    * Name of the stage
-   * @enum ["Stage"]
    */
   name: 'Stage'
 
   /**
    * Indicates that this target is a stage
-   * @enum [true]
    */
   isStage: true
 
@@ -68,15 +68,13 @@ export interface Stage extends Target {
 
   /**
    * State of the video
-   * @enum ["on", "off", "on-flipped"]
    */
   videoState?: 'on' | 'off' | 'on-flipped'
 
   /**
    * Layer order of the stage
-   * @enum [0]
    */
-  layerOrder?: number
+  layerOrder?: 0
 }
 
 /**
@@ -85,13 +83,12 @@ export interface Stage extends Target {
 export interface Sprite extends Target {
   /**
    * Name of the sprite
-   * @not {"enum": ["_stage_"]}
+   * @not "\_stage\_"
    */
   name: string
 
   /**
    * Indicates that this target is not a stage
-   * @enum [false]
    */
   isStage: false
 
@@ -127,7 +124,6 @@ export interface Sprite extends Target {
 
   /**
    * Rotation style of the sprite
-   * @enum ["all around", "don't rotate", "left-right"]
    */
   rotationStyle?: 'all around' | "don't rotate" | 'left-right'
 
@@ -151,27 +147,27 @@ export interface Target {
   /**
    * Blocks associated with this target
    */
-  blocks: { [key: string]: Block | TopLevelPrimitive }
+  blocks: { [id: string]: Block | TopLevelPrimitive }
 
   /**
    * Variables associated with this target
    */
-  variables: { [key: string]: ScalarVariable }
+  variables: { [id: string]: ScalarVariable }
 
   /**
    * Lists associated with this target
    */
-  lists: { [key: string]: List }
+  lists: { [id: string]: List }
 
   /**
    * Broadcast messages associated with this target
    */
-  broadcasts: { [key: string]: string }
+  broadcasts: { [id: string]: string }
 
   /**
    * Comments associated with this target
    */
-  comments?: { [key: string]: Comment }
+  comments?: { [id: string]: Comment }
 
   /**
    * Costumes associated with this target
@@ -206,12 +202,18 @@ export interface Block {
   /**
    * Inputs for the block
    */
-  inputs?: { [key: string]: [number, (string | InputPrimitive)?] }
+  inputs?: { [id: string]: Input }
 
   /**
    * Fields for the block
+   * @example ```ts
+   * { KEY_OPTION:["enter", null] }
+   * { VARIABLE: ["variable_name", "variable_id"] }
+   * ```
    */
-  fields?: { [key: string]: [string, string] }
+  fields?: {
+    [id: string]: [string, null] | [string, string]
+  }
 
   /**
    * ID of the next block
@@ -246,14 +248,49 @@ export interface Block {
   /**
    * Mutation data for the block
    */
-  mutation?: {
-    tagName: 'mutation'
-    children?: []
-    proccode?: string
-    argumentids?: string
-    warp?: boolean | string | null
-    hasnext?: boolean | string | null
-  }
+  mutation?: Mutation
+}
+
+type Mutation =
+  | Mutation_procedures_call
+  | Mutation_procedures_prototype
+  | Mutation_control_stop
+
+interface MutationBase {
+  /** The tag name, which is always 'mutation'. */
+  tagName?: 'mutation'
+
+  /** An array of child elements (typically empty). */
+  children?: []
+}
+
+interface Mutation_procedures_call extends MutationBase {
+  /** The procedure code for custom blocks. */
+  proccode?: string
+  /*
+   * https://github.com/scratchfoundation/scratch-parser/blob/665f05d739a202d565a4af70a201909393d456b2/lib/sb3_definitions.json#L282-L284
+   * ではstring
+   * https://en.scratch-wiki.info/wiki/Scratch_File_Format
+   * ではAn array of the ids of the argumentsとの記述。
+  /** The IDs of arguments for the procedure. */
+  argumentids?: string | string[]
+
+  /** Indicates if the procedure is a warp (runs without screen refresh). */
+  warp?: 'true' | 'false' | 'null' | boolean | null
+}
+interface Mutation_procedures_prototype extends MutationBase {
+  /**
+   * An array of the names of the arguments. This is only present when the block has an opcode of procedures_prototype.
+   */
+  argumentnames: string | string[]
+  /**
+   * An array of the defaults of the arguments; for string/number arguments, this is an empty string, and for boolean arguments it is false. This is only present when the block has an opcode of procedures_prototype.
+   */
+  argumentdefaults: (string | boolean)[]
+}
+interface Mutation_control_stop extends MutationBase {
+  /** Indicates if the procedure has a next block. */
+  hasnext?: 'true' | 'false' | 'null' | boolean | null
 }
 
 /**
@@ -352,7 +389,6 @@ export interface Sound {
 
   /**
    * Data format of the sound
-   * @enum ["wav", "wave", "mp3"]
    */
   dataFormat: 'wav' | 'wave' | 'mp3'
 
@@ -379,94 +415,35 @@ export interface Sound {
 }
 
 /**
- * Scalar variable definition
+ * Represents a scalar value, which can be a string, number, or boolean.
  */
-export interface ScalarVariable {
-  /**
-   * Name of the variable
-   */
-  name: string
+export type ScalarVal = string | number | boolean
 
-  /**
-   * Value of the variable
-   */
-  value: string | number | boolean
+/**
+ * Represents a scalar variable.
+ */
+export type ScalarVariable = [
+  displayName: string,
+  defaultValue: ScalarVal,
+  isCloudVariable?: boolean,
+]
 
-  /**
-   * Whether this is a cloud variable
-   */
-  isCloud?: true
+/**
+ * Represents a list.
+ */
+export type List = [displayName: string, defaultValue: ScalarVal[]]
+
+export namespace Shadow {
+  export type UnObscured = 0
+  export type No = 1
+  export type Obscured = 2
+  export type All = UnObscured | No | Obscured
 }
-
 /**
- * List definition
+ * The input value held by the block
  */
-export interface List {
-  /**
-   * Name of the list
-   */
-  name: string
+export type Input =
+  | [Shadow.UnObscured | Shadow.No, InputPrimitive]
+  | [Shadow.Obscured, InputPrimitive, InputPrimitive]
 
-  /**
-   * Contents of the list
-   */
-  contents: Array<string | number | boolean>
-}
-
-/**
- * Top-level primitive block
- */
-export type TopLevelPrimitive = VariablePrimitive | ListPrimitive
-
-/**
- * Variable primitive block
- */
-export interface VariablePrimitive {
-  [index: number]: number | string
-}
-
-/**
- * List primitive block
- */
-export interface ListPrimitive {
-  [index: number]: number | string
-}
-
-/**
- * Input primitive block
- */
-export type InputPrimitive =
-  | NumPrimitive
-  | ColorPrimitive
-  | TextPrimitive
-  | BroadcastPrimitive
-  | VariablePrimitive
-  | ListPrimitive
-
-/**
- * Number primitive block
- */
-export interface NumPrimitive {
-  [index: number]: number | string
-}
-
-/**
- * Color primitive block
- */
-export interface ColorPrimitive {
-  [index: number]: number | string
-}
-
-/**
- * Text primitive block
- */
-export interface TextPrimitive {
-  [index: number]: number | string
-}
-
-/**
- * Broadcast primitive block
- */
-export interface BroadcastPrimitive {
-  [index: number]: number | string
-}
+export * from './primitive'
