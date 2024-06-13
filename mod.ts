@@ -1,4 +1,11 @@
 /**
+ * @module
+ * @example
+ * ```ts
+ * import type { ScratchProject } from '@pnsk-lab/sb3-types'
+ */
+
+/**
  * Scratch 3.0 Project Schema
  */
 export interface ScratchProject {
