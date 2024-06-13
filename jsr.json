@@ -1,0 +1,8 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@pnsk-lab/sb3-types",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "version": "0.1.0"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "sb3-types",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "publish": "jsr publish",
+    "format": "biome format",
+    "lint": "biome lint",
+    "format:fix": "biome format --fix"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.1",
+    "@types/bun": "latest",
+    "jsr": "^0.12.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
