@@ -12,6 +12,17 @@ export namespace InputType {
   export type Broadcast = 11
   export type Variable = 12
   export type List = 13
+  export type All =
+    | Number
+    | PossiveNumber
+    | PossiveInteger
+    | Integer
+    | Angle
+    | Color
+    | String
+    | Broadcast
+    | Variable
+    | List
 }
 /**
  * Represents a number primitive in Scratch 3.0.

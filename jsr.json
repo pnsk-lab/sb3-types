@@ -2,7 +2,8 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "name": "@pnsk-lab/sb3-types",
   "exports": {
-    ".": "./mod.ts"
+    ".": "./mod.ts",
+    "./enum": "./enum.ts"
   },
-  "version": "0.1.2"
+  "version": "0.1.3"
 }
