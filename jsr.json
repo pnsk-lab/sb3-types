@@ -5,5 +5,12 @@
     ".": "./mod.ts",
     "./enum": "./enum.ts"
   },
-  "version": "0.1.6"
+  "version": "0.1.6",
+  "publish": {
+    "include": [
+      "package.json",
+      "README.md",
+      "**/*.ts"
+    ]
+  }
 }
