@@ -1,10 +1,25 @@
 import type { InputType as TInputType, Shadow as TShadow } from './mod'
-export const Shadow = {
+export const Shadow: {
+  UnObscured: TShadow.UnObscured
+  No: TShadow.No
+  Obscured: TShadow.Obscured
+} = {
   UnObscured: 0,
   No: 1,
   Obscured: 2,
-} as const satisfies Record<string, TShadow.All>
-export const InputType = {
+}
+export const InputType: {
+  Number: TInputType.Number
+  PossiveNumber: TInputType.PossiveNumber
+  PossiveInteger: TInputType.PossiveInteger
+  Integer: TInputType.Integer
+  Angle: TInputType.Angle
+  Color: TInputType.Color
+  String: TInputType.String
+  Broadcast: TInputType.Broadcast
+  Variable: TInputType.Variable
+  List: TInputType.List
+} = {
   Number: 4,
   PossiveNumber: 5,
   PossiveInteger: 6,
@@ -15,5 +30,4 @@ export const InputType = {
   Broadcast: 11,
   Variable: 12,
   List: 13,
-  additionalProperty: 4,
-} as const satisfies Record<string, TInputType.All>
+}
