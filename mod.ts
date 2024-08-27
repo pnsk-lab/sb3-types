@@ -5,8 +5,8 @@
  * import type { ScratchProject } from '@pnsk-lab/sb3-types'
  */
 
-import type { InputPrimitive, TopLevelPrimitive } from './primitive'
-import type { Shadow } from './enums'
+import type { Shadow } from './enums/index.ts'
+import type { InputPrimitive, TopLevelPrimitive } from './primitive.ts'
 
 /**
  * Scratch 3.0 Project Schema
@@ -188,10 +188,11 @@ export interface Target {
 
 /**
  * Definition for a block
+ * @see https://en.scratch-wiki.info/wiki/Scratch_File_Format#Blocks
  */
 export interface Block {
   /**
-   * Opcode of the block
+   * A string naming the block.
    */
   opcode: string
 
@@ -199,40 +200,53 @@ export interface Block {
    * Comment associated with the block
    */
   comment?: string
-
   /**
-   * Inputs for the block
+   * An object associating names with arrays representing inputs into which other blocks may be dropped, including C mouths.
+   * The first element of each array is 1 if the input is a shadow, 2 if there is no shadow, and 3 if there is a shadow but it is obscured by the input.
+   * The second is either the ID of the input or an array representing it as described in the table below.
+   * If there is an obscured shadow, the third element is its ID or an array representing it.
+   * @related {@link Input}
    */
   inputs?: { [id: string]: Input }
 
   /**
-   * Fields for the block
-   * @example ```ts
-   * { KEY_OPTION:["enter", null] }
-   * { VARIABLE: ["variable_name", "variable_id"] }
+   * Fields are text boxes, drop-down menus, etc.
+   * These are used directly in {@link https://en.scratch-wiki.info/wiki/Blocks blocks} where there is an {@link https://en.scratch-wiki.info/wiki/Argument input} into which one cannot drop a {@link https://en.scratch-wiki.info/wiki/Reporter_Block reporter}.
+   * However, more often than not, one should be able to do this;
+   * in this case no field exists directly in the block, but an input does, and that input may have a shadow block in it.
+
+   * An object associating names with arrays representing fields.
+   * The first element of each array is the field's value.
+   * For certain fields, such as variable and broadcast dropdown menus, there is also a second element, which is the ID of the field's value.
+   * @example ```json
+   * { "KEY_OPTION": ["enter", null] }
+   * { "VARIABLE": ["variable_name", "variable_id"] }
    * ```
    */
   fields?: {
-    [id: string]: [string, null] | [string, string]
+    [id: string]: Fields
   }
 
   /**
-   * ID of the next block
+   * The ID of the following block or `null`.
    */
   next?: string | null
 
   /**
-   * Indicates if this is a top-level block
+   * False if the block has a parent and true otherwise.
    */
   topLevel?: boolean
 
   /**
-   * ID of the parent block
+   * If the block is a {@link https://en.scratch-wiki.info/wiki/Stack_Block stack block} and is preceded, this is the ID of the preceding block.
+   * If the block is the first stack block in a {@link https://en.scratch-wiki.info/wiki/C_Block C mouth}, this is the ID of the C block.
+   * If the block is an input to another block, this is the ID of that other block.
+   * Otherwise it is `null`.
    */
   parent?: string | null
 
   /**
-   * Indicates if this block is a shadow block
+   * True if this is a shadow block and false otherwise.
    */
   shadow?: boolean
 
@@ -434,13 +448,19 @@ export type ScalarVariable = [
  */
 export type List = [displayName: string, defaultValue: ScalarVal[]]
 
-type InputPrimitiveOrReference = InputPrimitive | /* blockId */ string
+export type InputPrimitiveOrReference = InputPrimitive | /* blockId */ string
 
 /**
  * The input value held by the block
+ * @related
  */
 export type Input =
   | [Shadow.UnObscured | Shadow.No, InputPrimitiveOrReference]
   | [Shadow.Obscured, InputPrimitiveOrReference, InputPrimitiveOrReference]
+
+/**
+ * look {@link Block.fields}
+ */
+export type Fields = [string, null] | [string, string]
 
 export * from './primitive'
