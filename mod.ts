@@ -266,7 +266,10 @@ export interface Block {
   mutation?: Mutation
 }
 
-type Mutation =
+/**
+ * look {@link Block.mutation}
+ */
+export type Mutation =
   | Mutation_procedures_call
   | Mutation_procedures_prototype
   | Mutation_control_stop
