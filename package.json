@@ -2,7 +2,7 @@
   "name": "sb3-types",
   "module": "index.ts",
   "type": "module",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "files": [
     "dist",
     "LICENSE",
@@ -22,6 +22,8 @@
     "publish:jsr": "jsr publish",
     "format": "biome format",
     "lint": "biome lint",
+    "check:ts": "tsc --noEmit",
+    "check": "bun run lint && bun run check:ts",
     "format:fix": "biome format --fix"
   },
   "devDependencies": {
