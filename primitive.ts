@@ -9,7 +9,7 @@ export interface NumPrimitive {
   0:
     | InputType.Number
     | InputType.PositiveNumber
-    | InputType.PositiveNumber
+    | InputType.PositiveInteger
     | InputType.Integer
     | InputType.Angle
 
