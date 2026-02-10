@@ -31,4 +31,4 @@ jobs:
           node -e "const fs=require('fs'); const v=process.argv[1]; const p='jsr.json'; const j=JSON.parse(fs.readFileSync(p,'utf8')); j.version=v; fs.writeFileSync(p, JSON.stringify(j, null, 2)+'\n');" "$VERSION"
 
       - name: Publish package
-        run: npx jsr publish
+        run: npx jsr publish --allow-dirty
