@@ -2,7 +2,12 @@
   "name": "sb3-types",
   "module": "index.ts",
   "type": "module",
-  "version": "0.1.9",
+  "version": "0.1.10",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "exports": {
     ".": {
       "default": "./dist/mod.mjs",
