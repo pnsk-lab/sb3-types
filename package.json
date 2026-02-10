@@ -2,8 +2,19 @@
   "name": "sb3-types",
   "module": "index.ts",
   "type": "module",
+  "version": "0.1.9",
+  "exports": {
+    ".": {
+      "default": "./dist/mod.mjs",
+      "types": "./dist/mod.d.ts"
+    },
+    "./enum": {
+      "default": "./dist/enums/index.mjs",
+      "types": "./dist/enums/index.d.ts"
+    }
+  },
   "scripts": {
-    "publish": "jsr publish",
+    "publish:jsr": "jsr publish",
     "format": "biome format",
     "lint": "biome lint",
     "format:fix": "biome format --fix"
@@ -11,7 +22,8 @@
   "devDependencies": {
     "@biomejs/biome": "^1.8.1",
     "@types/bun": "latest",
-    "jsr": "^0.12.4"
+    "jsr": "^0.12.4",
+    "tsdown": "^0.20.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
