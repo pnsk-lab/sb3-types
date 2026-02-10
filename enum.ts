@@ -1,1 +1,1 @@
-export { Shadow, InputType } from './enums'
+export { InputType, Shadow } from './enums'

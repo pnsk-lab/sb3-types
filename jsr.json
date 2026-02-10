@@ -5,7 +5,7 @@
     ".": "./mod.ts",
     "./enum": "./enum.ts"
   },
-  "version": "0.1.13",
+  "version": "0.1.14",
   "publish": {
     "include": [
       "package.json",

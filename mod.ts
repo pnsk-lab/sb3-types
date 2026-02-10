@@ -459,8 +459,12 @@ export type InputPrimitiveOrReference = InputPrimitive | /* blockId */ string
  * @related
  */
 export type Input =
-  | [Shadow.SameBlock | Shadow.No, InputPrimitiveOrReference]
-  | [Shadow.DiffBlock, InputPrimitiveOrReference, InputPrimitiveOrReference]
+  | [Shadow.SameBlockShadow | Shadow.NoShadow, InputPrimitiveOrReference]
+  | [
+      Shadow.DiffBlockShadow,
+      InputPrimitiveOrReference,
+      InputPrimitiveOrReference,
+    ]
 
 /**
  * look {@link Block.fields}

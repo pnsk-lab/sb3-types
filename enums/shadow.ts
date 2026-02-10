@@ -3,15 +3,15 @@
  * Shadow type indicating the appearance of the shadow.
  */
 /** unobscured shadow */
-export type SameBlock = 1
-export const SameBlock: SameBlock = 1
+export type SameBlockShadow = 1
+export const SameBlockShadow: SameBlockShadow = 1
 /** no shadow */
-export type No = 2
-export const No: No = 2
+export type NoShadow = 2
+export const NoShadow: NoShadow = 2
 /** obscured shadow */
-export type DiffBlock = 3
-export const DiffBlock: DiffBlock = 3
+export type DiffBlockShadow = 3
+export const DiffBlockShadow: DiffBlockShadow = 3
 /**
  * Shadow type indicating the appearance of the shadow.
  */
-export type All = SameBlock | No | DiffBlock
+export type All = SameBlockShadow | NoShadow | DiffBlockShadow
