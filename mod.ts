@@ -262,6 +262,7 @@ export interface Block {
 
   /**
    * Mutation data for the block
+   * A special block is used to hold data.
    */
   mutation?: Mutation
 }
@@ -458,8 +459,8 @@ export type InputPrimitiveOrReference = InputPrimitive | /* blockId */ string
  * @related
  */
 export type Input =
-  | [Shadow.UnObscured | Shadow.No, InputPrimitiveOrReference]
-  | [Shadow.Obscured, InputPrimitiveOrReference, InputPrimitiveOrReference]
+  | [Shadow.SameBlock | Shadow.No, InputPrimitiveOrReference]
+  | [Shadow.DiffBlock, InputPrimitiveOrReference, InputPrimitiveOrReference]
 
 /**
  * look {@link Block.fields}

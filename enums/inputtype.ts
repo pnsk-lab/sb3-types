@@ -8,11 +8,11 @@ export type Number = 4
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 export const Number: Number = 4
 /** When accepting all positive numbers */
-export type PossiveNumber = 5
-export const PossiveNumber: PossiveNumber = 5
+export type PositiveNumber = 5
+export const PositiveNumber: PositiveNumber = 5
 /** When accepting all positive integers */
-export type PossiveInteger = 6
-export const PossiveInteger: PossiveInteger = 6
+export type PositiveInteger = 6
+export const PositiveInteger: PositiveInteger = 6
 /** When accepting all integers */
 export type Integer = 7
 export const Integer: Integer = 7
@@ -47,8 +47,8 @@ export const List: List = 13
 /** Primitive type identifiers. */
 export type All =
   | Number
-  | PossiveNumber
-  | PossiveInteger
+  | PositiveNumber
+  | PositiveInteger
   | Integer
   | Angle
   | Color
